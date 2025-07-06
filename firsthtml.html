@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Langging!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #ffe6f0;
+      overflow: hidden;
+      margin: 0;
+      cursor: url('https://cur.cursors-4u.net/cursors/cur-9/cur808.cur'), auto;
+      transition: background 0.3s ease;
+    }
+    .screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      background: white;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #d63384;
+      font-size: 2.5rem;
+    }
+    .hint {
+      color: #555;
+      font-style: italic;
+      margin: 10px;
+    }
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid #d63384;
+      border-radius: 30px;
+      width: 250px;
+      margin-top: 15px;
+      transition: box-shadow 0.3s;
+    }
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(214, 51, 132, 0.7);
+    }
+    button {
+      background: #d63384;
+      color: white;
+      padding: 10px 25px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #b02a6c;
+    }
+    .gallery {
+      display: none;
+      padding: 30px;
+      background: #fff0f5;
+      cursor: url('https://cur.cursors-4u.net/cursors/cur-9/cur808.cur'), auto;
+      min-height: 100vh;
+    }
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .photo-item {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .photo-item:hover {
+      transform: scale(1.03);
+    }
+    .photo-item img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+    .photo-message {
+      padding: 10px;
+      font-size: 1rem;
+      text-align: center;
+      color: #d63384;
+    }
+    .heart {
+      position: absolute;
+      color: #ff69b4;
+      font-size: 20px;
+      animation: float 8s linear infinite;
+      opacity: 0.6;
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="screen" id="passcodeScreen">
+  <h1>For My Langging 💖</h1>
+  <p class="hint">Hint: Our Special Date</p>
+  <input type="password" id="passcodeInput" placeholder="Enter passcode...">
+  <button onclick="checkPasscode()">Unlock</button>
+</div>
+<div class="gallery" id="photoGallery">
+  <h1>Hello Langging, Happy Birthday! 🎉</h1>
+  <div class="photos-grid" id="photoGrid"></div>
+</div>
+<script>
+const photos = [
+  { url: "https://www.facebook.com/photo/?fbid=122300852696003480&set=a.122300852360003480", msg: "You are always be my Baby. 🥺" },
+  { url: "https://drive.google.com/uc?export=view&id=1gGmaeKPv7DuEmv0FWMeT0o0OUkmSs7NC", msg: "You are always Adventurous. 👊" },
+  { url: "https://drive.google.com/uc?export=view&id=1flXw0E38SWwveHM01QKM2CqyCQm9wJCO", msg: "You makes me Happy. 😄" },
+  { url: "https://drive.google.com/uc?export=view&id=1f8dpX4fHHGZnc6qayTAEGwLXUgNAdXKR", msg: "My Intelligent Baby. 🤓" },
+  { url: "https://drive.google.com/uc?export=view&id=1fqG9JEQFYcyALOK0KErvyN4hTA1yIBk8", msg: "You always Provide for Me. 🥹" },
+  { url: "https://drive.google.com/uc?export=view&id=1fi_zgPbGFuAkCQYB3Ct92D_q4V6-a07z", msg: "My athletic baby. 🏃‍♂️" },
+  { url: "https://drive.google.com/uc?export=view&id=1f6QjEATriY9PLQ6lDU3j2Ush8XodViPc", msg: "My Stylish Wanngingg. 🧍‍♂️" },
+  { url: "https://drive.google.com/uc?export=view&id=1gc_Vv9BZDpqDnDizaCrUfGw2PtOJnyT6", msg: "My Super Hot Langging. 🔥" },
+  { url: "https://drive.google.com/uc?export=view&id=1f6FljrWRq2YJiizN0vwKErNRN1JfBXof", msg: "My always type, Handsome!! 🤩" },
+  { url: "https://drive.google.com/uc?export=view&id=1g6Awlkfm8faNYPRSW511BulMuX77maGt", msg: "Always Here for Pangga. 😘" },
+  { url: "https://drive.google.com/uc?export=view&id=1g7vWh1jVglNbjbmhLQIOGlvkcnFOScxH", msg: "My Cutiepatotie Batang Gamay. 😜" },
+  { url: "https://drive.google.com/uc?export=view&id=1g-SapLfCP6CeMP0UE23f_ylQFJjrxWgc", msg: "My Favorite View. 😌" },
+  { url: "https://drive.google.com/uc?export=view&id=1gTzFoIemO-z1F6oaY9Mb6sJcwDK1QCBQ", msg: "You makes me Happy Lang. ☺️" },
+  { url: "https://drive.google.com/uc?export=view&id=1gAAceQj3ry12TSCmRoJelftcia_K9bYe", msg: "You will always be My Man. 😍" },
+  { url: "https://drive.google.com/uc?export=view&id=1gEQifrd6eDY6eJ5gC73oXOqu86O9RnDk", msg: "Your Existence Matters to Me. 🥺" },
+  { url: "https://drive.google.com/uc?export=view&id=1fRmldff6xmsn8BfUQbJgsmTTWWQ_w4s0", msg: "You're my Sunshine Langlang. ☀️" },
+  { url: "https://drive.google.com/uc?export=view&id=1f6neYZVH5kuK4bHnexXm-4e0SWWTwhCc", msg: "You are the Apple of my Eye. 🤪" },
+  { url: "https://drive.google.com/uc?export=view&id=1gEQTSTO2kwbBLkS0U9CH18YJaNfvvP4c", msg: "My Sexy Baby. 🔥" },
+  { url: "https://drive.google.com/uc?export=view&id=1fNPiE9JHeFOoi6RxcvIuOu_GN50ExyCZ", msg: "I am Always Here for You. 🫂" },
+  { url: "https://drive.google.com/uc?export=view&id=1f5CbfiwurC_LnSC-JWnkdEcUenhJWXCL", msg: "My Baby Renren. 🥺" },
+];
+
+function checkPasscode() {
+  const input = document.getElementById("passcodeInput").value;
+  if (input === "041125") {
+    document.getElementById("passcodeScreen").style.display = "none";
+    document.getElementById("photoGallery").style.display = "block";
+    displayPhotos();
+  } else {
+    alert("Incorrect passcode. Try again 💔");
+  }
+}
+
+function displayPhotos() {
+  const grid = document.getElementById("photoGrid");
+  photos.forEach(photo => {
+    const item = document.createElement("div");
+    item.className = "photo-item";
+    item.innerHTML = `<img src="${photo.url}" alt="photo"><div class="photo-message">${photo.msg}</div>`;
+    grid.appendChild(item);
+  });
+}
+
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 10 + "px";
+  heart.innerHTML = "❤";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 8000);
+}, 300);
+</script>
+</body>
+</html>

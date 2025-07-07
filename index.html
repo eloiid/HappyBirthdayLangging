@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>Happy Birthday Langging!</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     /* Floating hearts background */
     .hearts {
@@ -39,18 +41,189 @@
         }
     }
 
-    html, body {
+    /* New Interface Styles */
+    .passcode-screen {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 15px 35px rgba(77, 168, 218, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(77, 168, 218, 0.4);
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+      animation: fadeIn 1.5s ease-out;
+      margin: 40px auto;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .passcode-screen::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(77, 168, 218, 0.15) 0%, transparent 70%);
+      z-index: -1;
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .passcode-screen h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      color: #1a6bac;
+      text-shadow: 0 0 8px rgba(26, 107, 172, 0.25);
+      animation: pulseText 3s infinite;
+    }
+    
+    @keyframes pulseText {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    
+    .photo-container {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 20px auto;
+      border: 5px solid #ff79c6;
+      box-shadow: 0 0 25px rgba(255, 121, 198, 0.4);
+      position: relative;
+      transition: all 0.5s;
+      animation: floatPhoto 6s ease-in-out infinite;
+    }
+    
+    @keyframes floatPhoto {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    
+    .photo-container:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 0 0 40px rgba(255, 121, 198, 0.6);
+    }
+    
+    .photo-container img {
+      width: 100%;
       height: 100%;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: transparent;
-      overflow-y: auto;
-      cursor: url('https://cur.cursors-4u.net/cursors/cur-9/cur808.cur'), auto;
-      scroll-behavior: smooth;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    
+    .passcode-input {
+      margin: 25px 0;
+      position: relative;
+    }
+    
+    .passcode-input input {
+      padding: 14px 25px;
+      border: 2px solid #ff79c6;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #0a3d6b;
+      font-size: 1.1rem;
+      width: 70%;
+      max-width: 300px;
+      outline: none;
+      text-align: center;
+      transition: all 0.3s;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: 0 5px 15px rgba(255, 121, 198, 0.2);
+    }
+    
+    .passcode-input input:focus {
+      border-color: #ff4da6;
+      box-shadow: 0 0 20px rgba(255, 77, 166, 0.4);
+      transform: scale(1.02);
+    }
+    
+    .hint {
+      font-style: italic;
+      color: #1a6bac;
+      margin: 15px 0;
+      font-size: 1.1rem;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 8px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      animation: hintPulse 2s infinite;
+    }
+    
+    @keyframes hintPulse {
+      0% { box-shadow: 0 0 0 0 rgba(26, 107, 172, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(26, 107, 172, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(26, 107, 172, 0); }
+    }
+    
+    /* Unified Button Styles */
+    .btn {
+      background: linear-gradient(45deg, #ff79c6, #ff9ecb);
+      color: white;
+      border: none;
+      padding: 14px 35px;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 10px;
+      box-shadow: 0 7px 20px rgba(255, 121, 198, 0.5);
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 20px;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(25deg);
+      transition: all 0.6s;
+    }
+    
+    .btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(255, 121, 198, 0.7);
+    }
+    
+    .btn:hover::after {
+      left: 120%;
+    }
+    
+    .btn:active {
+      transform: translateY(2px);
     }
 
-    .screen, .gallery, #letterPage, #carousel {
+    /* Alternate button style */
+    .btn-alt {
+      background: linear-gradient(45deg, #4da8da, #70c1ff);
+    }
+
+    /* Other screens */
+    .gallery, #letterPage, #carousel {
       max-width: 600px;
       margin: 40px auto;
       background: white;
@@ -60,6 +233,7 @@
       text-align: center;
       box-sizing: border-box;
       width: 90vw;
+      display: none;
     }
 
     h1 {
@@ -67,97 +241,6 @@
       font-size: 2.5rem;
       margin-bottom: 20px;
       word-break: break-word;
-    }
-
-    .hint {
-      color: #555;
-      font-style: italic;
-      margin: 10px;
-      word-break: break-word;
-    }
-
-    input {
-      padding: 10px;
-      font-size: 1rem;
-      border: 2px solid #d63384;
-      border-radius: 30px;
-      width: 100%;
-      max-width: 300px;
-      margin-top: 15px;
-      transition: box-shadow 0.3s;
-      box-sizing: border-box;
-    }
-
-    input:focus {
-      outline: none;
-      box-shadow: 0 0 5px rgba(214, 51, 132, 0.7);
-    }
-
-    button {
-      background: #d63384;
-      color: white;
-      padding: 10px 25px;
-      margin: 15px 10px 0;
-      border: none;
-      border-radius: 30px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-      min-width: 90px;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    button:hover {
-      background: #b02a6c;
-      animation: sparkle 0.5s linear;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
-    }
-
-    button::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent 25%,
-        rgba(255, 255, 255, 0.1) 25%,
-        rgba(255, 255, 255, 0.1) 50%,
-        transparent 50%,
-        transparent 75%,
-        rgba(255, 255, 255, 0.1) 75%,
-        rgba(255, 255, 255, 0.1)
-      );
-      background-size: 20px 20px;
-      transform: rotate(45deg);
-      opacity: 0;
-      transition: opacity 0.3s;
-      z-index: -1;
-    }
-
-    button:hover::before {
-      opacity: 1;
-      animation: sparkleMove 1s linear infinite;
-    }
-
-    @keyframes sparkle {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes sparkleMove {
-      0% { background-position: 0 0; }
-      100% { background-position: 20px 20px; }
-    }
-
-    .gallery {
-      display: none;
     }
 
     #photoGrid {
@@ -200,8 +283,7 @@
       word-break: break-word;
     }
 
-    #letterPage {
-      display: none;
+    #letterContent {
       color: #333;
       font-size: 1.1rem;
       line-height: 1.6;
@@ -213,12 +295,6 @@
     #letterContent p {
       margin-bottom: 15px;
       word-break: break-word;
-    }
-
-    #carousel {
-      display: none;
-      max-width: 600px;
-      margin: 40px auto;
     }
 
     #carouselItem {
@@ -258,6 +334,21 @@
       gap: 10px;
     }
 
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .passcode-screen h1 {
+        font-size: 2.5rem;
+      }
+      .photo-container {
+        width: 200px;
+        height: 200px;
+      }
+      .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+    }
+
     @media (max-width: 600px) {
       h1 {
         font-size: 1.8rem;
@@ -265,10 +356,10 @@
       .photo-message {
         font-size: 0.9rem;
       }
-      input {
+      .passcode-input input {
         max-width: 100%;
       }
-      button {
+      .btn {
         font-size: 0.9rem;
         padding: 8px 20px;
         min-width: 80px;
@@ -280,6 +371,17 @@
         max-height: 40vh;
       }
     }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: transparent;
+      overflow-y: auto;
+      cursor: url('https://cur.cursors-4u.net/cursors/cur-9/cur808.cur'), auto;
+      scroll-behavior: smooth;
+    }
   </style>
   <audio id="birthdayMusic" src="music/happy.mp3" loop></audio>
 </head>
@@ -287,23 +389,34 @@
   <!-- Floating hearts background -->
   <div class="hearts" id="hearts"></div>
 
-  <div class="screen" id="passcodeScreen">
-    <h1>For My Langging 💖</h1>
-    <p class="hint">Hint: Our Special Date</p>
-    <input type="password" id="passcodeInput" placeholder="Enter passcode..." />
-    <button onclick="checkPasscode()">Unlock</button>
+  <!-- New Passcode Screen -->
+  <div class="passcode-screen" id="passcodeScreen">
+    <h1>Happy Birthday Pangga! ❤️</h1>
+    
+    <div class="photo-container">
+      <img src="./images/cover1.jpg" alt="My Wanngling">
+    </div>
+    
+    <p class="hint">Hint: "The day that my langging said yes"</p>
+    
+    <div class="passcode-input">
+      <input type="password" id="passcodeInput" placeholder="Enter our special date" aria-label="Enter passcode">
+    </div>
+    
+    <button class="btn" onclick="checkPasscode()">Unlock My Love</button>
   </div>
 
+  <!-- Other Screens -->
   <div class="gallery" id="photoGallery">
     <h1>Hello Langging, Happy Birthday! 🎉</h1>
     <div id="photoGrid"></div>
     <div class="nav-buttons">
-      <button id="continueToMessageBtn" style="display:none;">Continue</button>
-      <button id="backToPasscodeBtnFromGallery">Back</button>
+      <button class="btn" id="continueToMessageBtn" style="display:none;">Continue</button>
+      <button class="btn btn-alt" id="backToPasscodeBtnFromGallery">Back</button>
     </div>
   </div>
 
-  <div id="letterPage" style="display:none;">
+  <div id="letterPage">
     <div id="letterContent" style="max-width: 800px; margin: auto; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
       <p>Dear Langging,</p>
       <p>On this very special day, I just want to say how grateful I am to have you. Your love, strength, and kindness make my world brighter every single day. Watching you grow, chase your dreams, and light up every room you walk into — that's my favorite thing in the world.</p>
@@ -317,17 +430,17 @@
       <p>With all my heart,<br /> 🥰 Pangga/Dong Lloyd</p>
     </div>
     <div class="nav-buttons">
-      <button id="continueToCarouselBtn">Continue</button>
-      <button id="backToGalleryBtnFromLetter">Back</button>
+      <button class="btn" id="continueToCarouselBtn">Continue</button>
+      <button class="btn btn-alt" id="backToGalleryBtnFromLetter">Back</button>
     </div>
   </div>
 
-  <div id="carousel" style="display:none;">
+  <div id="carousel">
     <div id="carouselItem" class="photo-item"></div>
     <div class="nav-buttons">
-      <button id="prevCarouselBtn">Previous</button>
-      <button id="nextCarouselBtn">Next</button>
-      <button id="backToLetterBtnFromCarousel">Back</button>
+      <button class="btn" id="prevCarouselBtn">Previous</button>
+      <button class="btn" id="nextCarouselBtn">Next</button>
+      <button class="btn btn-alt" id="backToLetterBtnFromCarousel">Back</button>
     </div>
   </div>
 
@@ -359,10 +472,25 @@
           }
       }
 
+      // Create sparkle effect
+      function createSparkle(x, y) {
+          const sparkle = document.createElement('div');
+          sparkle.classList.add('sparkle');
+          sparkle.style.left = `${x}px`;
+          sparkle.style.top = `${y}px`;
+          sparkle.setAttribute('aria-hidden', 'true');
+          document.body.appendChild(sparkle);
+          
+          // Remove after animation completes
+          setTimeout(() => {
+              sparkle.remove();
+          }, 1500);
+      }
+
       // Call the function to create hearts
       createHearts();
 
-      const photos = [
+     const photos = [
         { url: "./images/image1.jpeg", msg: "You are always be my Baby. 🥺" },
         { url: "./images/image2.jpg", msg: "You are always Adventurous. 👊" },
         { url: "./images/image3.JPG", msg: "You makes me Happy. 😄" },
@@ -408,15 +536,35 @@
       let currentIndex = 0;
       let carouselInterval;
 
+      // Passcode functionality
       window.checkPasscode = function () {
         const input = document.getElementById("passcodeInput").value;
+        
         if (input === "041125") {
+          // Create sparkles on success
+          for (let i = 0; i < 20; i++) {
+              setTimeout(() => {
+                  createSparkle(
+                      Math.random() * window.innerWidth,
+                      Math.random() * window.innerHeight
+                  );
+              }, i * 100);
+          }
+          
           passcodeScreen.style.display = "none";
           photoGallery.style.display = "block";
           music.play();
           displayPhotos();
         } else {
-          alert("Incorrect passcode. Try again 💔");
+          // Shake effect for wrong passcode
+          const input = document.getElementById('passcodeInput');
+          input.style.animation = 'shake 0.5s';
+          input.value = '';
+          input.setAttribute('placeholder', 'Try again!');
+          
+          setTimeout(() => {
+              input.style.animation = '';
+          }, 500);
         }
       };
 
@@ -501,6 +649,29 @@
       function stopCarouselAutoPlay() {
         if (carouselInterval) clearInterval(carouselInterval);
       }
+
+      // Allow pressing Enter to submit passcode
+      document.getElementById('passcodeInput').addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+              checkPasscode();
+          }
+      });
+      
+      // Add sparkle effect on click
+      document.addEventListener('click', function(e) {
+          createSparkle(e.clientX, e.clientY);
+      });
+      
+      // Add CSS for shake animation
+      const style = document.createElement('style');
+      style.textContent = `
+          @keyframes shake {
+              0%, 100% { transform: translateX(0); }
+              20%, 60% { transform: translateX(-5px); }
+              40%, 80% { transform: translateX(5px); }
+          }
+      `;
+      document.head.appendChild(style);
     });
   </script>
 </body>

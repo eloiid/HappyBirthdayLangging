@@ -68,33 +68,25 @@
       background: #fff0f5;
       min-height: 100vh;
     }
-    .photos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
     .photo-item {
       background: white;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-    .photo-item:hover {
-      transform: scale(1.03);
+      margin: 30px auto;
+      max-width: 600px;
+      text-align: center;
     }
     .photo-item img {
       width: 100%;
-      height: 250px;
-      object-fit: cover;
+      height: auto;
+      border-bottom: 1px solid #eee;
     }
     .photo-message {
-      padding: 10px;
-      font-size: 1rem;
-      text-align: center;
+      padding: 15px;
+      font-size: 1.2rem;
       color: #d63384;
+      background: #fff;
     }
     .heart {
       position: absolute;
@@ -109,6 +101,7 @@
       100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
     }
   </style>
+  <audio id="birthdayMusic" src="music/happy.mp3" loop></audio>
 </head>
 <body>
 <div class="screen" id="passcodeScreen">
@@ -117,45 +110,67 @@
   <input type="password" id="passcodeInput" placeholder="Enter passcode...">
   <button onclick="checkPasscode()">Unlock</button>
 </div>
-
-  <div style="max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); color: #333; text-align: left; font-size: 1.1rem; line-height: 1.6;">
+<div class="gallery" id="photoGallery">
+  <div style="text-align:center; margin-bottom: 30px;">
+    <button id="startSurpriseBtn">Start Surprise 🎁</button>
+  </div>
+  <h1>Hello Langging, Happy Birthday! 🎉</h1>
+  <div id="photoGrid"></div>
+  <div id="carousel" style="display:none; max-width:600px; margin:40px auto; text-align:center;">
+    <div id="carouselItem" class="photo-item"></div>
+    
+  </div>
+  <div id="letterSection" class="message-box" style="display:none; max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); color: #333; text-align: left; font-size: 1.1rem; line-height: 1.6; min-height: 100vh;">
     <p>Dear Langging,</p>
     <p>On this very special day, I just want to say how grateful I am to have you. Your love, strength, and kindness make my world brighter every single day. Watching you grow, chase your dreams, and light up every room you walk into — that’s my favorite thing in the world.</p>
     <p>Happy 20th birthday, my love. I’ll always be here, cheering for you, loving you, and holding your hand through it all.</p>
     <p>With all my heart,<br> 🥰 Pangga</p>
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="startCarouselBtn">Start Final Surprise 🎠</button>
+    </div>
   </div>
-  <div class="photos-grid" id="photoGrid"></div>
+  <div style="text-align: center;">
+    <button id="showLetterBtn" style="display:none">Next: My Message 💌</button>
+  </div>
 </div>
 <script>
 const photos = [
-  { url: "images/1.jpg", msg: "You are always be my Baby. 🥺" },
+  { url: "images/1.jpeg", msg: "You are always be my Baby. 🥺" },
   { url: "images/2.jpg", msg: "You are always Adventurous. 👊" },
-  { url: "images/3.jpg", msg: "You makes me Happy. 😄" },
-  { url: "images/4.jpg", msg: "My Intelligent Baby. 🤓" },
-  { url: "images/5.jpg", msg: "You always Provide for Me. 🥹" },
+  { url: "images/3.JPG", msg: "You makes me Happy. 😄" },
+  { url: "images/4.jpeg", msg: "My Intelligent Baby. 🤓" },
+  { url: "images/5.JPG", msg: "You always Provide for Me. 🥹" },
   { url: "images/6.jpg", msg: "My athletic baby. 🏃‍♂️" },
   { url: "images/7.jpg", msg: "My Stylish Wanngingg. 🧍‍♂️" },
   { url: "images/8.jpg", msg: "My Super Hot Langging. 🔥" },
   { url: "images/9.jpg", msg: "My always type, Handsome!! 🤩" },
-  { url: "images/10.jpg", msg: "Always Here for Pangga. 😘" },
-  { url: "images/11.jpg", msg: "My Cutiepatotie Batang Gamay. 😜" },
+  { url: "images/10.JPG", msg: "Always Here for Pangga. 😘" },
+  { url: "images/11.jpeg", msg: "My Cutiepatotie Batang Gamay. 😜" },
   { url: "images/12.jpg", msg: "My Favorite View. 😌" },
-  { url: "images/13.jpg", msg: "You makes me Happy Lang. ☺️" },
+  { url: "images/13.JPG", msg: "You makes me Happy Lang. ☺️" },
   { url: "images/14.jpg", msg: "You will always be My Man. 😍" },
   { url: "images/15.jpg", msg: "Your Existence Matters to Me. 🥺" },
   { url: "images/16.jpg", msg: "You're my Sunshine Langlang. ☀️" },
-  { url: "images/17.jpg", msg: "You are the Apple of my Eye. 🤪" },
+  { url: "images/17.jpeg", msg: "You are the Apple of my Eye. 🤪" },
   { url: "images/18.jpg", msg: "My Sexy Baby. 🔥" },
   { url: "images/19.jpg", msg: "I am Always Here for You. 🫂" },
   { url: "images/20.jpg", msg: "My Baby Renren. 🥺" },
 ];
 
 function checkPasscode() {
+  const music = document.getElementById("birthdayMusic");
   const input = document.getElementById("passcodeInput").value;
   if (input === "041125") {
     document.getElementById("passcodeScreen").style.display = "none";
-    document.getElementById("photoGallery").style.display = "block";
-    displayPhotos();
+    const gallery = document.getElementById("photoGallery");
+    const startButton = document.getElementById("startSurpriseBtn");
+    gallery.style.display = "block";
+    startButton.addEventListener("click", () => {
+      music.play();
+      startButton.style.display = "none";
+      displayPhotos();
+      document.getElementById("showLetterBtn").style.display = "inline-block";
+    });
   } else {
     alert("Incorrect passcode. Try again 💔");
   }
@@ -163,13 +178,38 @@ function checkPasscode() {
 
 function displayPhotos() {
   const grid = document.getElementById("photoGrid");
-  photos.forEach(photo => {
+  grid.innerHTML = "";
+  photos.forEach((photo, i) => {
     const item = document.createElement("div");
     item.className = "photo-item";
-    item.innerHTML = `<img src="${photo.url}" alt="photo"><div class="photo-message">${photo.msg}</div>`;
+    item.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+    item.style.opacity = 0;
+    item.style.transform = "translateY(30px)";
+    item.innerHTML = `
+      <img src="${photo.url}" alt="photo">
+      <div class="photo-message">${photo.msg}</div>
+    `;
     grid.appendChild(item);
+    setTimeout(() => {
+      item.style.opacity = 1;
+      item.style.transform = "translateY(0)";
+    }, i * 200);
   });
 }
+
+document.getElementById("showLetterBtn").addEventListener("click", () => {
+  document.getElementById("photoGrid").style.display = "none";
+  document.getElementById("letterSection").style.display = "block";
+  document.getElementById("showLetterBtn").style.display = "none";
+});
+
+document.getElementById("startCarouselBtn").addEventListener("click", () => {
+  document.getElementById("letterSection").style.display = "none";
+  document.getElementById("carousel").style.display = "block";
+  currentIndex = 0;
+  showCarouselItem(currentIndex);
+  autoPlayCarousel();
+});
 
 setInterval(() => {
   const heart = document.createElement("div");
@@ -180,6 +220,34 @@ setInterval(() => {
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 8000);
 }, 300);
+
+let currentIndex = 0;
+
+function showCarouselItem(index) {
+  const item = photos[index];
+  const container = document.getElementById("carouselItem");
+  container.innerHTML = `
+    <img src="${item.url}" alt="photo">
+    <div class="photo-message">${item.msg}</div>
+  `;
+}
+
+document.getElementById("prevBtn").addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+  showCarouselItem(currentIndex);
+});
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % photos.length;
+  showCarouselItem(currentIndex);
+});
+
+function autoPlayCarousel() {
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % photos.length;
+    showCarouselItem(currentIndex);
+  }, 3000);
+}
 </script>
 </body>
 </html>

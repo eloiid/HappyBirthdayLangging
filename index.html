@@ -5,20 +5,22 @@
   <title>Happy Birthday Langging!</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
       font-family: 'Poppins', sans-serif;
       background: #ffe6f0;
-      overflow: hidden;
-      margin: 0;
+      overflow-y: auto;
       cursor: url('https://cur.cursors-4u.net/cursors/cur-9/cur808.cur'), auto;
-      transition: background 0.3s ease;
+      scroll-behavior: smooth;
     }
     .screen {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       text-align: center;
       background: white;
       padding: 40px;
@@ -64,7 +66,6 @@
       display: none;
       padding: 30px;
       background: #fff0f5;
-      cursor: url('https://cur.cursors-4u.net/cursors/cur-9/cur808.cur'), auto;
       min-height: 100vh;
     }
     .photos-grid {
@@ -101,6 +102,7 @@
       font-size: 20px;
       animation: float 8s linear infinite;
       opacity: 0.6;
+      pointer-events: none;
     }
     @keyframes float {
       0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
@@ -121,26 +123,26 @@
 </div>
 <script>
 const photos = [
-  { url: "./images/image1.jpgeg", msg: "You are always be my Baby. 🥺" },
-  { url: "./images/image2.jpg", msg: "You are always Adventurous. 👊" },
-  { url: "./images/image3.JPG", msg: "You makes me Happy. 😄" },
-  { url: "./images/image4.jpeg", msg: "My Intelligent Baby. 🤓" },
-  { url: "./images/image5.JPG", msg: "You always Provide for Me. 🥹" },
-  { url: "./images/image6.jpg", msg: "My athletic baby. 🏃‍♂️" },
-  { url: "./images/image7.jpg", msg: "My Stylish Wanngingg. 🧍‍♂️" },
-  { url: "./images/image8.jpg", msg: "My Super Hot Langging. 🔥" },
-  { url: "./images/image9.jpg", msg: "My always type, Handsome!! 🤩" },
-  { url: "./images/image10.JPG", msg: "Always Here for Pangga. 😘" },
-  { url: "./images/image11.jpeg", msg: "My Cutiepatotie Batang Gamay. 😜" },
-  { url: "./images/image12.jpg", msg: "My Favorite View. 😌" },
-  { url: "./images/image13.JPG", msg: "You makes me Happy Lang. ☺️" },
-  { url: "./images/image14.jpg", msg: "You will always be My Man. 😍" },
-  { url: "./images/image15.jpg", msg: "Your Existence Matters to Me. 🥺" },
-  { url: "./images/image16.jpg", msg: "You're my Sunshine Langlang. ☀️" },
-  { url: "./images/image17.jpeg", msg: "You are the Apple of my Eye. 🤪" },
-  { url: "./images/image18.jpg", msg: "My Sexy Baby. 🔥" },
-  { url: "./images/image19.jpg", msg: "I am Always Here for You. 🫂" },
-  { url: "./images/image20.jpg", msg: "My Baby Renren. 🥺" },
+  { url: "./images/image1.jpg", msg: "You are always be my Baby. 🥺" },
+  { url: "images/image2.jpg", msg: "You are always Adventurous. 👊" },
+  { url: "images/image3.jpg", msg: "You makes me Happy. 😄" },
+  { url: "images/image4.jpg", msg: "My Intelligent Baby. 🤓" },
+  { url: "images/image5.jpg", msg: "You always Provide for Me. 🥹" },
+  { url: "images/image6.jpg", msg: "My athletic baby. 🏃‍♂️" },
+  { url: "images/image7.jpg", msg: "My Stylish Wanngingg. 🧍‍♂️" },
+  { url: "images/image8.jpg", msg: "My Super Hot Langging. 🔥" },
+  { url: "images/image9.jpg", msg: "My always type, Handsome!! 🤩" },
+  { url: "images/image10.jpg", msg: "Always Here for Pangga. 😘" },
+  { url: "images/image11.jpg", msg: "My Cutiepatotie Batang Gamay. 😜" },
+  { url: "images/image12.jpg", msg: "My Favorite View. 😌" },
+  { url: "images/image13.jpg", msg: "You makes me Happy Lang. ☺️" },
+  { url: "images/image14.jpg", msg: "You will always be My Man. 😍" },
+  { url: "images/image15.jpg", msg: "Your Existence Matters to Me. 🥺" },
+  { url: "images/image16.jpg", msg: "You're my Sunshine Langlang. ☀️" },
+  { url: "images/image17.jpg", msg: "You are the Apple of my Eye. 🤪" },
+  { url: "images/image18.jpg", msg: "My Sexy Baby. 🔥" },
+  { url: "images/image19.jpg", msg: "I am Always Here for You. 🫂" },
+  { url: "images/image20.jpg", msg: "My Baby Renren. 🥺" },
 ];
 
 function checkPasscode() {

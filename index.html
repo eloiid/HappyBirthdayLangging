@@ -382,12 +382,68 @@
       cursor: url('https://cur.cursors-4u.net/cursors/cur-9/cur808.cur'), auto;
       scroll-behavior: smooth;
     }
+
+    /* Music player controls */
+    .music-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.8);
+      padding: 10px;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .music-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff79c6, #ff9ecb);
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .music-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .volume-control {
+      width: 100px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .music-controls:hover .volume-control {
+      opacity: 1;
+    }
   </style>
-  <audio id="birthdayMusic" src="music/happy.mp3" loop></audio>
+  <!-- Audio element for background music -->
+  <audio id="birthdayMusic" loop>
+    <source src="./bgmusic/BackgroundMusic.mp3" type="audio/mpeg">
+    <!-- Fallback message -->
+    Your browser does not support the audio element.
+  </audio>
 </head>
 <body>
   <!-- Floating hearts background -->
   <div class="hearts" id="hearts"></div>
+
+  <!-- Music controls -->
+  <div class="music-controls">
+    <button class="music-btn" id="playBtn"><i class="fas fa-play"></i></button>
+    <button class="music-btn" id="pauseBtn"><i class="fas fa-pause"></i></button>
+    <input type="range" class="volume-control" id="volumeControl" min="0" max="1" step="0.1" value="0.5">
+  </div>
 
   <!-- New Passcode Screen -->
   <div class="passcode-screen" id="passcodeScreen">
@@ -511,10 +567,29 @@
         { url: "./images/image18.jpg", msg: "My Sexy Baby. 🔥" },
         { url: "./images/image19.jpg", msg: "I am Always Here for You. 🫂" },
         { url: "./images/image20.jpg", msg: "My Baby Renren. 🥺" },
-        { url: "./images/image21.jpg", msg: "My Always Pogi Lanlang. 😗" },
+        { url: "./images/image21.jpg", msg: "My Always Pogi Langlang. 😗" },
       ];
 
       const music = document.getElementById("birthdayMusic");
+      const playBtn = document.getElementById("playBtn");
+      const pauseBtn = document.getElementById("pauseBtn");
+      const volumeControl = document.getElementById("volumeControl");
+
+      // Set initial volume
+      music.volume = 0.5;
+
+      // Music controls
+      playBtn.addEventListener("click", () => {
+        music.play();
+      });
+
+      pauseBtn.addEventListener("click", () => {
+        music.pause();
+      });
+
+      volumeControl.addEventListener("input", () => {
+        music.volume = volumeControl.value;
+      });
 
       // Elements
       const passcodeScreen = document.getElementById("passcodeScreen");
@@ -553,7 +628,7 @@
           
           passcodeScreen.style.display = "none";
           photoGallery.style.display = "block";
-          music.play();
+          music.play().catch(e => console.log("Auto-play prevented:", e));
           displayPhotos();
         } else {
           // Shake effect for wrong passcode

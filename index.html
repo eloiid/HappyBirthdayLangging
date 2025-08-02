@@ -222,6 +222,71 @@
       background: linear-gradient(45deg, #4da8da, #70c1ff);
     }
 
+    /* Video Player Section - 1920x1080 */
+    .video-container {
+      display: none;
+      max-width: 1920px;
+      width: 90%;
+      margin: 40px auto;
+      background: white;
+      padding: 30px 20px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .video-player {
+      width: 100%;
+      max-width: 1920px;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio (1080/1920) */
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0 auto 20px;
+      background: #000;
+    }
+
+    .video-player video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .video-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .video-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff79c6, #ff9ecb);
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .video-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .video-btn:active {
+      transform: scale(0.95);
+    }
+
     /* Other screens */
     .gallery, #letterPage, #carousel {
       max-width: 600px;
@@ -347,6 +412,11 @@
         padding: 12px 25px;
         font-size: 1rem;
       }
+      .video-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+      }
     }
 
     @media (max-width: 600px) {
@@ -462,7 +532,7 @@
     <button class="btn" onclick="checkPasscode()">Unlock My Love</button>
   </div>
 
-  <!-- Other Screens -->
+  <!-- Photo Gallery Section -->
   <div class="gallery" id="photoGallery">
     <h1>Hello Langging, Happy Birthday! 🎉</h1>
     <div id="photoGrid"></div>
@@ -486,8 +556,28 @@
       <p>With all my heart,<br /> 🥰 Pangga/Dong Lloyd</p>
     </div>
     <div class="nav-buttons">
-      <button class="btn" id="continueToCarouselBtn">Continue</button>
+      <button class="btn" id="continueToVideoBtn">Continue</button>
       <button class="btn btn-alt" id="backToGalleryBtnFromLetter">Back</button>
+    </div>
+  </div>
+
+  <!-- Video Player Section -->
+  <div class="video-container" id="videoContainer">
+    <h1>A Special Video for You Wanglangging ❤️</h1>
+    <div class="video-player">
+      <video id="birthdayVideo" width="1920" height="1080" controls>
+        <source src="./Video/Lannging.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="video-controls">
+      <button class="video-btn" id="rewindBtn"><i class="fas fa-backward"></i></button>
+      <button class="video-btn" id="playVideoBtn"><i class="fas fa-play"></i></button>
+      <button class="video-btn" id="forwardBtn"><i class="fas fa-forward"></i></button>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn" id="continueToCarouselBtn">Continue</button>
+      <button class="btn btn-alt" id="backToLetterBtnFromVideo">Back</button>
     </div>
   </div>
 
@@ -496,7 +586,7 @@
     <div class="nav-buttons">
       <button class="btn" id="prevCarouselBtn">Previous</button>
       <button class="btn" id="nextCarouselBtn">Next</button>
-      <button class="btn btn-alt" id="backToLetterBtnFromCarousel">Back</button>
+      <button class="btn btn-alt" id="backToVideoBtnFromCarousel">Back</button>
     </div>
   </div>
 
@@ -575,6 +665,12 @@
       const pauseBtn = document.getElementById("pauseBtn");
       const volumeControl = document.getElementById("volumeControl");
 
+      // Video elements
+      const video = document.getElementById("birthdayVideo");
+      const playVideoBtn = document.getElementById("playVideoBtn");
+      const rewindBtn = document.getElementById("rewindBtn");
+      const forwardBtn = document.getElementById("forwardBtn");
+
       // Set initial volume
       music.volume = 0.5;
 
@@ -591,6 +687,33 @@
         music.volume = volumeControl.value;
       });
 
+      // Video controls
+      playVideoBtn.addEventListener("click", () => {
+        if (video.paused) {
+          video.play();
+          playVideoBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+          video.pause();
+          playVideoBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+      });
+
+      rewindBtn.addEventListener("click", () => {
+        video.currentTime = Math.max(0, video.currentTime - 10);
+      });
+
+      forwardBtn.addEventListener("click", () => {
+        video.currentTime = Math.min(video.duration, video.currentTime + 10);
+      });
+
+      video.addEventListener('play', () => {
+        playVideoBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      });
+
+      video.addEventListener('pause', () => {
+        playVideoBtn.innerHTML = '<i class="fas fa-play"></i>';
+      });
+
       // Elements
       const passcodeScreen = document.getElementById("passcodeScreen");
       const photoGallery = document.getElementById("photoGallery");
@@ -599,14 +722,18 @@
       const backToPasscodeBtnFromGallery = document.getElementById("backToPasscodeBtnFromGallery");
 
       const letterPage = document.getElementById("letterPage");
-      const continueToCarouselBtn = document.getElementById("continueToCarouselBtn");
+      const continueToVideoBtn = document.getElementById("continueToVideoBtn");
       const backToGalleryBtnFromLetter = document.getElementById("backToGalleryBtnFromLetter");
+
+      const videoContainer = document.getElementById("videoContainer");
+      const continueToCarouselBtn = document.getElementById("continueToCarouselBtn");
+      const backToLetterBtnFromVideo = document.getElementById("backToLetterBtnFromVideo");
 
       const carousel = document.getElementById("carousel");
       const carouselItem = document.getElementById("carouselItem");
       const prevCarouselBtn = document.getElementById("prevCarouselBtn");
       const nextCarouselBtn = document.getElementById("nextCarouselBtn");
-      const backToLetterBtnFromCarousel = document.getElementById("backToLetterBtnFromCarousel");
+      const backToVideoBtnFromCarousel = document.getElementById("backToVideoBtnFromCarousel");
 
       let currentIndex = 0;
       let carouselInterval;
@@ -676,17 +803,29 @@
         music.currentTime = 0;
       });
 
-      continueToCarouselBtn.addEventListener("click", () => {
+      continueToVideoBtn.addEventListener("click", () => {
         letterPage.style.display = "none";
+        videoContainer.style.display = "block";
+        video.play().catch(e => console.log("Video auto-play prevented:", e));
+      });
+
+      backToGalleryBtnFromLetter.addEventListener("click", () => {
+        letterPage.style.display = "none";
+        photoGallery.style.display = "block";
+      });
+
+      continueToCarouselBtn.addEventListener("click", () => {
+        videoContainer.style.display = "none";
         carousel.style.display = "block";
         currentIndex = 0;
         showCarouselItem(currentIndex);
         startCarouselAutoPlay();
       });
 
-      backToGalleryBtnFromLetter.addEventListener("click", () => {
-        letterPage.style.display = "none";
-        photoGallery.style.display = "block";
+      backToLetterBtnFromVideo.addEventListener("click", () => {
+        videoContainer.style.display = "none";
+        letterPage.style.display = "block";
+        video.pause();
       });
 
       prevCarouselBtn.addEventListener("click", () => {
@@ -699,9 +838,9 @@
         showCarouselItem(currentIndex);
       });
 
-      backToLetterBtnFromCarousel.addEventListener("click", () => {
+      backToVideoBtnFromCarousel.addEventListener("click", () => {
         carousel.style.display = "none";
-        letterPage.style.display = "block";
+        videoContainer.style.display = "block";
         stopCarouselAutoPlay();
       });
 
